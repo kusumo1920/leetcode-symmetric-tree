@@ -27,7 +27,7 @@ func main() {
 			},
 		},
 	}
-	output := isSymmetric(input)
+	output := isSymmetricSolution2(input)
 	fmt.Println(output)
 }
 
@@ -37,7 +37,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-func isSymmetric(root *TreeNode) bool {
+func isSymmetricSolution1(root *TreeNode) bool {
 	var leftFn func(*TreeNode, int, string) (int, []string)
 	leftFn = func(node *TreeNode, depth int, flag string) (int, []string) {
 		if node == nil {
@@ -76,6 +76,25 @@ func isSameSlice(slice1, slice2 []string) bool {
 		if v != slice2[i] {
 			return false
 		}
+	}
+	return true
+}
+
+func isSymmetricSolution2(root *TreeNode) bool {
+	var recursiveFn func(*TreeNode, *TreeNode) bool
+	recursiveFn = func(left, right *TreeNode) bool {
+		if left == nil && right == nil {
+			return true
+		}
+		if left == nil || right == nil {
+			return false
+		}
+		return left.Val == right.Val &&
+			recursiveFn(left.Right, right.Left) &&
+			recursiveFn(left.Left, right.Right)
+	}
+	if root != nil {
+		return recursiveFn(root.Left, root.Right)
 	}
 	return true
 }
